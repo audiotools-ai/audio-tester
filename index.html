@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta name="google-site-verification" content="b8WeXWc6bkvMq3AU07IDfsiyntNngMND_YupAiVC27g" />
+  <meta name="google-site-verification" content="b8WeXWc6bkvMq3AU07IDfsiyntNngMND_YupAiVC27g" />
     <meta charset="UTF-8">
+    <!-- IMPORTANT: Put your exact Google Verification tag right here -->
+    <meta name="google-site-verification" content="PASTE_YOUR_GOOGLE_CODE_HERE" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Online Audio & Mic Tester</title>
+    <title>Free Online Earphone, Headphone & Mic Tester | HD Audio Check</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             background-color: #f4f7f6;
-            margin-top: 50px;
+            margin: 0;
+            padding: 0;
+            color: #333;
         }
         .container {
-            max-width: 400px;
-            margin: 0 auto;
+            max-width: 500px;
+            margin: 50px auto 20px auto;
             background: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
         }
-        h1 { color: #333; }
-        p { color: #666; }
+        h1 { color: #2c3e50; font-size: 24px; margin-bottom: 10px; }
+        .subtitle { color: #7f8c8d; font-size: 14px; margin-bottom: 25px; }
         .btn {
             display: inline-block;
-            width: 80%;
+            width: 90%;
             padding: 15px;
             margin: 10px 0;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -49,6 +53,27 @@
         .recording { background-color: #e67e22 !important; animation: pulse 1s infinite; }
         .playing { background-color: #2ecc71 !important; }
 
+        /* New Info Section Styling for SEO */
+        .info-section {
+            max-width: 500px;
+            margin: 20px auto 50px auto;
+            padding: 20px;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .info-section h2 { color: #2c3e50; font-size: 18px; margin-top: 20px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+        .info-section p, .info-section li { color: #555; font-size: 14px; }
+        .info-section ul { padding-left: 20px; }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #bdc3c7;
+            background-color: #2c3e50;
+            margin-top: 40px;
+        }
+
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
@@ -59,8 +84,8 @@
 <body>
 
 <div class="container">
-    <h1>Audio & Speaker Tester</h1>
-    <p>Test your earphones balance or check how your voice sounds through your microphone.</p>
+    <h1>Earphone & Audio Tester</h1>
+    <p class="subtitle">Quickly test your left/right stereo channels and check your microphone sound quality online.</p>
     
     <button class="btn left-btn" onclick="playAudio(-1)">🔊 Test LEFT Earphone</button>
     <button class="btn both-btn" onclick="playAudio(0)">🎧 Test BOTH Earphones</button>
@@ -69,8 +94,33 @@
     <button id="micButton" class="btn mic-btn" onclick="startMicTest()">🎤 Test Your Voice (Record 3s)</button>
 </div>
 
+<!-- NEW SEO CONTENT SECTION BELOW THE BOX -->
+<div class="info-section">
+    <h2>📋 How to Test Your Audio & Earphones</h2>
+    <p>Using our free online tool is easy. Follow these simple steps to verify your hardware:</p>
+    <ul>
+        <li><strong>Left/Right Channel Test:</strong> Click the Left or Right buttons to check if your audio channels are correctly balanced. If you click "Left" but hear sound on the right, your earphones are worn backward!</li>
+        <li><strong>Stereo Balance Test:</strong> The center "Both" button plays an equal frequency audio signal to both channels to help identify if one earbud is quieter than the other.</li>
+        <li><strong>Microphone Quality Check:</strong> Click the voice test button and grant microphone permissions. Speak clearly for 3 seconds. The tool automatically plays back your HD audio recording so you can listen for background static or clipping.</li>
+    </ul>
+
+    <h2>❓ Frequently Asked Questions (FAQ)</h2>
+    
+    <strong>Why is my left earphone quieter than the right?</strong>
+    <p>This common issue is often caused by dirt accumulation inside the earbud grid, internal wire fraying from bending, or balance settings on your phone or laptop operating system being off-center.</p>
+
+    <strong>Is my microphone working?</strong>
+    <p>Our voice recorder tests your hardware locally. If you can hear your voice clearly during the 3-second loop playback but your friends can't hear you in apps like Discord, Zoom, or TeamSpeak, check your in-app input device configurations.</p>
+
+    <strong>Does this tool store my voice recordings?</strong>
+    <p>No. Privacy is fully respected. Your microphone test is processed entirely inside your local web browser using temporary memory chunks. No audio files or data are ever uploaded to an external server.</p>
+</div>
+
+<footer>
+    <p>&copy; 2026 Free Online Audio Tools. All Rights Reserved.</p>
+</footer>
+
 <script>
-    // Standard Tone Code
     function playAudio(panValue) {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioCtx.createOscillator();
@@ -94,7 +144,6 @@
         oscillator.stop(audioCtx.currentTime + 1.0);
     }
 
-    // High-Definition Recording Voice Engine
     let mediaRecorder;
     let audioChunks = [];
 
@@ -102,7 +151,6 @@
         const btn = document.getElementById('micButton');
         audioChunks = []; 
 
-        // Upgraded studio settings to prevent clipping/muffling
         navigator.mediaDevices.getUserMedia({ 
             audio: {
                 echoCancellation: false,  
