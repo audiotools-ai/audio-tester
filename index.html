@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="google-site-verification" content="b8WeXWc6bkvMq3AU07IDfsiyntNngMND_YupAiVC27g" />
+   <meta name="google-site-verification" content="b8WeXWc6bkvMq3AU07IDfsiyntNngMND_YupAiVC27g" />
     <meta charset="UTF-8">
-    <!-- IMPORTANT: Put your exact Google Verification tag right here -->
-    <meta name="google-site-verification" content="PASTE_YOUR_GOOGLE_CODE_HERE" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYGB878LN9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GYGB878LN9');
+    </script>
+    
+    <!-- IMPORTANT: Leave this tag here so Google Search Console stays verified -->
+    <meta name="google-site-verification" content="googleafc02a52ddf.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Online Earphone, Headphone & Mic Tester | HD Audio Check</title>
     <style>
@@ -53,7 +62,6 @@
         .recording { background-color: #e67e22 !important; animation: pulse 1s infinite; }
         .playing { background-color: #2ecc71 !important; }
 
-        /* New Info Section Styling for SEO */
         .info-section {
             max-width: 500px;
             margin: 20px auto 50px auto;
@@ -94,7 +102,6 @@
     <button id="micButton" class="btn mic-btn" onclick="startMicTest()">🎤 Test Your Voice (Record 3s)</button>
 </div>
 
-<!-- NEW SEO CONTENT SECTION BELOW THE BOX -->
 <div class="info-section">
     <h2>📋 How to Test Your Audio & Earphones</h2>
     <p>Using our free online tool is easy. Follow these simple steps to verify your hardware:</p>
@@ -132,7 +139,7 @@
             panner = audioCtx.createStereoPanner();
             panner.pan.setValueAtTime(panValue, audioCtx.currentTime);
         } else {
-            panner = audioCtx.createPanner();
+            panner = panner = audioCtx.createPanner();
             panner.panningModel = 'HRTF';
             panner.setPosition(panValue, 0, 1 - Math.abs(panValue));
         }
