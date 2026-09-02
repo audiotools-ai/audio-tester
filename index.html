@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Audio & Mic Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f7f6;
+            margin-top: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        p { color: #666; }
+        .btn {
+            display: inline-block;
+            width: 80%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .left-btn { background-color: #3498db; }
+        .left-btn:hover { background-color: #2980b9; }
+        
+        .both-btn { background-color: #2ecc71; }
+        .both-btn:hover { background-color: #27ae60; }
+        
+        .right-btn { background-color: #e74c3c; }
+        .right-btn:hover { background-color: #c0392b; }
+
+        .mic-btn { background-color: #9b59b6; }
+        .mic-btn:hover { background-color: #8e44ad; }
+        .recording { background-color: #e67e22 !important; animation: pulse 1s infinite; }
+        .playing { background-color: #2ecc71 !important; }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Audio & Speaker Tester</h1>
+    <p>Test your earphones balance or check how your voice sounds through your microphone.</p>
+    
+    <button class="btn left-btn" onclick="playAudio(-1)">🔊 Test LEFT Earphone</button>
+    <button class="btn both-btn" onclick="playAudio(0)">🎧 Test BOTH Earphones</button>
+    <button class="btn right-btn" onclick="playAudio(1)">🔊 Test RIGHT Earphone</button>
+    
+    <button id="micButton" class="btn mic-btn" onclick="startMicTest()">🎤 Test Your Voice (Record 3s)</button>
+</div>
+
+<script>
+    // Standard Tone Code
+    function playAudio(panValue) {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
+        
+        let panner;
+        if (audioCtx.createStereoPanner) {
+            panner = audioCtx.createStereoPanner();
+            panner.pan.setValueAtTime(panValue, audioCtx.currentTime);
+        } else {
+            panner = audioCtx.createPanner();
+            panner.panningModel = 'HRTF';
+            panner.setPosition(panValue, 0, 1 - Math.abs(panValue));
+        }
+        
+        oscillator.connect(panner);
+        panner.connect(audioCtx.destination);
+        
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 1.0);
+    }
+
+    // High-Definition Recording Voice Engine
+    let mediaRecorder;
+    let audioChunks = [];
+
+    function startMicTest() {
+        const btn = document.getElementById('micButton');
+        audioChunks = []; 
+
+        // Upgraded studio settings to prevent clipping/muffling
+        navigator.mediaDevices.getUserMedia({ 
+            audio: {
+                echoCancellation: false,  
+                noiseSuppression: false,  
+                autoGainControl: false,   
+                channelCount: 2,          
+                sampleRate: 48000         
+            } 
+        })
+        .then(stream => {
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+
+            btn.innerText = "🛑 Recording... Talk Now!";
+            btn.classList.add('recording');
+            btn.disabled = true;
+
+            mediaRecorder.addEventListener("dataavailable", event => {
+                audioChunks.push(event.data);
+            });
+
+            setTimeout(() => {
+                mediaRecorder.stop();
+                stream.getTracks().forEach(track => track.stop());
+            }, 3000);
+
+            mediaRecorder.addEventListener("stop", () => {
+                btn.classList.remove('recording');
+                btn.classList.add('playing');
+                btn.innerText = "🔊 Playing Back Your Voice...";
+
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audio = new Audio(audioUrl);
+                
+                audio.play();
+
+                audio.onended = () => {
+                    btn.classList.remove('playing');
+                    btn.innerText = "🎤 Test Your Voice (Record 3s)";
+                    btn.disabled = false;
+                };
+            });
+        })
+        .catch(err => {
+            alert("Could not access microphone. Please check permissions.");
+            btn.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
