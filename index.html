@@ -82,14 +82,13 @@
         .info-section p, .info-section li { color: #555; font-size: 14px; }
         .info-section ul { padding-left: 20px; }
         
-        /* Fixed & Bulletproof Native Accordion Styles */
+        /* Collapsible Accordion Styles */
         details.faq-item {
             background-color: #fff;
             border: 1px solid #d5dbdb;
             border-radius: 6px;
             margin-top: 12px;
             overflow: hidden;
-            transition: 0.2s ease-in-out;
         }
         details.faq-item[open] {
             border-color: #3498db;
@@ -100,16 +99,15 @@
             font-weight: bold;
             color: #2c3e50;
             cursor: pointer;
-            list-style: none; /* Hide default arrow */
+            list-style: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
             user-select: none;
         }
         summary.faq-header::-webkit-details-marker {
-            display: none; /* Hide default arrow for Safari */
+            display: none;
         }
-        /* Custom Modern Plus/Minus Icons */
         summary.faq-header::after {
             content: '\002B';
             font-size: 18px;
@@ -156,6 +154,9 @@
     <button class="btn right-btn" onclick="playAudio(1)">🔊 Test RIGHT Earphone</button>
     
     <button id="micButton" class="btn mic-btn" onclick="startMicTest()">🎤 Test Your Voice (Record 3s)</button>
+    
+    <!-- Hidden element used to bypass aggressive mobile audio autoplay blocks -->
+    <audio id="hiddenAudioPlayer" style="display:none;"></audio>
 </div>
 
 <div class="info-section">
@@ -169,7 +170,6 @@
 
     <h2>❓ Frequently Asked Questions (FAQ)</h2>
     
-    <!-- Tab 1 -->
     <details class="faq-item">
         <summary class="faq-header">🎤 Discord Mic Not Working? Try These 3 Quick Fixes</summary>
         <div class="faq-content">
@@ -182,7 +182,6 @@
         </div>
     </details>
 
-    <!-- Tab 2 -->
     <details class="faq-item">
         <summary class="faq-header">🎧 Why Is One Earbud Quieter Than the Other?</summary>
         <div class="faq-content">
@@ -195,7 +194,6 @@
         </div>
     </details>
 
-    <!-- Tab 3 -->
     <details class="faq-item">
         <summary class="faq-header">🔒 Does this tool store my voice recordings?</summary>
         <div class="faq-content">
@@ -211,6 +209,12 @@
 <script>
     function playAudio(panValue) {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Force state unlock to bypass Chrome/Safari security rules
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+
         const oscillator = audioCtx.createOscillator();
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
@@ -220,7 +224,7 @@
             panner = audioCtx.createStereoPanner();
             panner.pan.setValueAtTime(panValue, audioCtx.currentTime);
         } else {
-            panner = panner = audioCtx.createPanner();
+            panner = audioCtx.createPanner();
             panner.panningModel = 'HRTF';
             panner.setPosition(panValue, 0, 1 - Math.abs(panValue));
         }
@@ -237,9 +241,6 @@
 
     function startMicTest() {
         const btn = document.getElementById('micButton');
+        const hiddenPlayer = document.getElementById('hiddenAudioPlayer');
         audioChunks = []; 
 
-        navigator.mediaDevices.getUserMedia({ 
-            audio: {
-                echoCancellation: false,  
-                noiseSuppression: false,  
