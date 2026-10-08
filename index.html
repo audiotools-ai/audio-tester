@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GYGB878LN9"></script>
+<script async src="https://googletagmanager.com"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -13,7 +13,7 @@
    <meta name="google-site-verification" content="b8WeXWc6bkvMq3AU07IDfsiyntNngMND_YupAiVC27g" />
     <meta charset="UTF-8">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYGB878LN9"></script>
+    <script async src="https://googletagmanager.com"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -82,6 +82,48 @@
         .info-section p, .info-section li { color: #555; font-size: 14px; }
         .info-section ul { padding-left: 20px; }
         
+        /* Modern Accordion Tab Styles */
+        .faq-accordion {
+            background-color: #fff;
+            color: #2c3e50;
+            cursor: pointer;
+            padding: 16px;
+            width: 100%;
+            text-align: left;
+            border: 1px solid #d5dbdb;
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-accordion:hover, .active-tab {
+            background-color: #ebf5fb;
+            border-color: #3498db;
+        }
+        .faq-accordion:after {
+            content: '\002B';
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .active-tab:after {
+            content: "\2212";
+        }
+        .faq-panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-left: 3px solid #3498db;
+            margin-bottom: 10px;
+            border-radius: 0 0 6px 6px;
+        }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -115,21 +157,37 @@
     <h2>📋 How to Test Your Audio & Earphones</h2>
     <p>Using our free online tool is easy. Follow these simple steps to verify your hardware:</p>
     <ul>
-        <li><strong>Left/Right Channel Test:</strong> Click the Left or Right buttons to check if your audio channels are correctly balanced. If you click "Left" but hear sound on the right, your earphones are worn backward!</li>
-        <li><strong>Stereo Balance Test:</strong> The center "Both" button plays an equal frequency audio signal to both channels to help identify if one earbud is quieter than the other.</li>
-        <li><strong>Microphone Quality Check:</strong> Click the voice test button and grant microphone permissions. Speak clearly for 3 seconds. The tool automatically plays back your HD audio recording so you can listen for background static or clipping.</li>
+        <li><strong>Left/Right Channel Test:</strong> Click the Left or Right buttons to check if your audio channels are correctly balanced.</li>
+        <li><strong>Stereo Balance Test:</strong> The center "Both" button plays an equal frequency audio signal to both channels.</li>
+        <li><strong>Microphone Quality Check:</strong> Click the voice test button and grant microphone permissions to test background static or clipping.</li>
     </ul>
 
     <h2>❓ Frequently Asked Questions (FAQ)</h2>
     
-    <strong>Why is my left earphone quieter than the right?</strong>
-    <p>This common issue is often caused by dirt accumulation inside the earbud grid, internal wire fraying from bending, or balance settings on your phone or laptop operating system being off-center.</p>
+    <button class="faq-accordion">🎤 Discord Mic Not Working? Try These 3 Quick Fixes</button>
+    <div class="faq-panel">
+        <p>If your friends can't hear you on Discord but your microphone is physically plugged in, try these rapid steps:</p>
+        <ul>
+            <li><strong>Select Your Mic Manually:</strong> Open Discord, go to <strong>User Settings</strong> ➔ <strong>Voice & Video</strong>. Switch your <strong>Input Device</strong> from "Default" to the exact name of your microphone.</li>
+            <li><strong>Reset Voice Settings:</strong> Scroll to the absolute bottom of the Voice & Video page and click the red **Reset Voice Settings** button.</li>
+            <li><strong>Test Your Hardware:</strong> Use our free microphone tester above to record a quick 3-second clip. If it plays back clearly here, the bug is strictly inside Discord.</li>
+        </ul>
+    </div>
 
-    <strong>Is my microphone working?</strong>
-    <p>Our voice recorder tests your hardware locally. If you can hear your voice clearly during the 3-second loop playback but your friends can't hear you in apps like Discord, Zoom, or TeamSpeak, check your in-app input device configurations.</p>
+    <button class="faq-accordion">🎧 Why Is One Earbud Quieter Than the Other?</button>
+    <div class="faq-panel">
+        <p>An uneven volume drop between your left and right channels is usually caused by two common issues:</p>
+        <ul>
+            <li><strong>Dirty Mesh Grid sound barrier:</strong> Earwax and dust block speaker grids over time. Take a clean, dry toothbrush and gently brush the mesh downward to flick debris out.</li>
+            <li><strong>Shifted Audio Balance Slider:</strong> Go to your phone or computer sound settings, search for **"Audio Balance,"** and make sure the channel slider sits precisely at 50/50 in the center.</li>
+            <li><strong>Test Your Stereo Balance:</strong> Click the **Left** and **Right** isolated channel test buttons above to see if it is a permanent hardware failure.</li>
+        </ul>
+    </div>
 
-    <strong>Does this tool store my voice recordings?</strong>
-    <p>No. Privacy is fully respected. Your microphone test is processed entirely inside your local web browser using temporary memory chunks. No audio files or data are ever uploaded to an external server.</p>
+    <button class="faq-accordion">🔒 Does this tool store my voice recordings?</button>
+    <div class="faq-panel">
+        <p>No. Privacy is fully respected. Your microphone test is processed entirely inside your local web browser using temporary memory chunks. No audio files or data are ever uploaded to an external server.</p>
+    </div>
 </div>
 
 <footer>
@@ -137,6 +195,20 @@
 </footer>
 
 <script>
+    // Tab Expand/Collapse Functionality
+    const acc = document.getElementsByClassName("faq-accordion");
+    for (let i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active-tab");
+            const panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+    }
+
     function playAudio(panValue) {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioCtx.createOscillator();
@@ -173,50 +245,3 @@
                 noiseSuppression: false,  
                 autoGainControl: false,   
                 channelCount: 2,          
-                sampleRate: 48000         
-            } 
-        })
-        .then(stream => {
-            mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.start();
-
-            btn.innerText = "🛑 Recording... Talk Now!";
-            btn.classList.add('recording');
-            btn.disabled = true;
-
-            mediaRecorder.addEventListener("dataavailable", event => {
-                audioChunks.push(event.data);
-            });
-
-            setTimeout(() => {
-                mediaRecorder.stop();
-                stream.getTracks().forEach(track => track.stop());
-            }, 3000);
-
-            mediaRecorder.addEventListener("stop", () => {
-                btn.classList.remove('recording');
-                btn.classList.add('playing');
-                btn.innerText = "🔊 Playing Back Your Voice...";
-
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                const audioUrl = URL.createObjectURL(audioBlob);
-                const audio = new Audio(audioUrl);
-                
-                audio.play();
-
-                audio.onended = () => {
-                    btn.classList.remove('playing');
-                    btn.innerText = "🎤 Test Your Voice (Record 3s)";
-                    btn.disabled = false;
-                };
-            });
-        })
-        .catch(err => {
-            alert("Could not access microphone. Please check permissions.");
-            btn.disabled = false;
-        });
-    }
-</script>
-
-</body>
-</html>
