@@ -82,46 +82,51 @@
         .info-section p, .info-section li { color: #555; font-size: 14px; }
         .info-section ul { padding-left: 20px; }
         
-        /* Modern Accordion Tab Styles */
-        .faq-accordion {
+        /* Fixed & Bulletproof Native Accordion Styles */
+        details.faq-item {
             background-color: #fff;
-            color: #2c3e50;
-            cursor: pointer;
-            padding: 16px;
-            width: 100%;
-            text-align: left;
             border: 1px solid #d5dbdb;
             border-radius: 6px;
-            outline: none;
+            margin-top: 12px;
+            overflow: hidden;
+            transition: 0.2s ease-in-out;
+        }
+        details.faq-item[open] {
+            border-color: #3498db;
+        }
+        summary.faq-header {
+            padding: 16px;
             font-size: 15px;
             font-weight: bold;
-            transition: 0.3s;
-            margin-top: 10px;
+            color: #2c3e50;
+            cursor: pointer;
+            list-style: none; /* Hide default arrow */
             display: flex;
             justify-content: space-between;
             align-items: center;
+            user-select: none;
         }
-        .faq-accordion:hover, .active-tab {
-            background-color: #ebf5fb;
-            border-color: #3498db;
+        summary.faq-header::-webkit-details-marker {
+            display: none; /* Hide default arrow for Safari */
         }
-        .faq-accordion:after {
+        /* Custom Modern Plus/Minus Icons */
+        summary.faq-header::after {
             content: '\002B';
             font-size: 18px;
             font-weight: bold;
+            color: #7f8c8d;
         }
-        .active-tab:after {
+        details.faq-item[open] summary.faq-header {
+            background-color: #ebf5fb;
+        }
+        details.faq-item[open] summary.faq-header::after {
             content: "\2212";
+            color: #3498db;
         }
-        .faq-panel {
-            padding: 0 18px;
-            background-color: white;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
+        .faq-content {
+            padding: 12px 18px 18px 18px;
             border-left: 3px solid #3498db;
-            margin-bottom: 10px;
-            border-radius: 0 0 6px 6px;
+            background-color: #fff;
         }
         
         footer {
@@ -164,30 +169,39 @@
 
     <h2>❓ Frequently Asked Questions (FAQ)</h2>
     
-    <button class="faq-accordion">🎤 Discord Mic Not Working? Try These 3 Quick Fixes</button>
-    <div class="faq-panel">
-        <p>If your friends can't hear you on Discord but your microphone is physically plugged in, try these rapid steps:</p>
-        <ul>
-            <li><strong>Select Your Mic Manually:</strong> Open Discord, go to <strong>User Settings</strong> ➔ <strong>Voice & Video</strong>. Switch your <strong>Input Device</strong> from "Default" to the exact name of your microphone.</li>
-            <li><strong>Reset Voice Settings:</strong> Scroll to the absolute bottom of the Voice & Video page and click the red **Reset Voice Settings** button.</li>
-            <li><strong>Test Your Hardware:</strong> Use our free microphone tester above to record a quick 3-second clip. If it plays back clearly here, the bug is strictly inside Discord.</li>
-        </ul>
-    </div>
+    <!-- Tab 1 -->
+    <details class="faq-item">
+        <summary class="faq-header">🎤 Discord Mic Not Working? Try These 3 Quick Fixes</summary>
+        <div class="faq-content">
+            <p>If your friends can't hear you on Discord but your microphone is physically plugged in, try these rapid steps:</p>
+            <ul>
+                <li><strong>Select Your Mic Manually:</strong> Open Discord, go to <strong>User Settings</strong> ➔ <strong>Voice & Video</strong>. Switch your <strong>Input Device</strong> from "Default" to the exact name of your microphone.</li>
+                <li><strong>Reset Voice Settings:</strong> Scroll to the absolute bottom of the Voice & Video page and click the red <strong>Reset Voice Settings</strong> button.</li>
+                <li><strong>Test Your Hardware:</strong> Use our free microphone tester above to record a quick 3-second clip. If it plays back clearly here, the bug is strictly inside Discord.</li>
+            </ul>
+        </div>
+    </details>
 
-    <button class="faq-accordion">🎧 Why Is One Earbud Quieter Than the Other?</button>
-    <div class="faq-panel">
-        <p>An uneven volume drop between your left and right channels is usually caused by two common issues:</p>
-        <ul>
-            <li><strong>Dirty Mesh Grid sound barrier:</strong> Earwax and dust block speaker grids over time. Take a clean, dry toothbrush and gently brush the mesh downward to flick debris out.</li>
-            <li><strong>Shifted Audio Balance Slider:</strong> Go to your phone or computer sound settings, search for **"Audio Balance,"** and make sure the channel slider sits precisely at 50/50 in the center.</li>
-            <li><strong>Test Your Stereo Balance:</strong> Click the **Left** and **Right** isolated channel test buttons above to see if it is a permanent hardware failure.</li>
-        </ul>
-    </div>
+    <!-- Tab 2 -->
+    <details class="faq-item">
+        <summary class="faq-header">🎧 Why Is One Earbud Quieter Than the Other?</summary>
+        <div class="faq-content">
+            <p>An uneven volume drop between your left and right channels is usually caused by two common issues:</p>
+            <ul>
+                <li><strong>Dirty Mesh Grid sound barrier:</strong> Earwax and dust block speaker grids over time. Take a clean, dry toothbrush and gently brush the mesh downward to flick debris out.</li>
+                <li><strong>Shifted Audio Balance Slider:</strong> Go to your phone or computer sound settings, search for <strong>"Audio Balance,"</strong> and make sure the channel slider sits precisely at 50/50 in the center.</li>
+                <li><strong>Test Your Stereo Balance:</strong> Click the <strong>Left</strong> and <strong>Right</strong> isolated channel test buttons above to see if it is a permanent hardware failure.</li>
+            </ul>
+        </div>
+    </details>
 
-    <button class="faq-accordion">🔒 Does this tool store my voice recordings?</button>
-    <div class="faq-panel">
-        <p>No. Privacy is fully respected. Your microphone test is processed entirely inside your local web browser using temporary memory chunks. No audio files or data are ever uploaded to an external server.</p>
-    </div>
+    <!-- Tab 3 -->
+    <details class="faq-item">
+        <summary class="faq-header">🔒 Does this tool store my voice recordings?</summary>
+        <div class="faq-content">
+            <p>No. Privacy is fully respected. Your microphone test is processed entirely inside your local web browser using temporary memory chunks. No audio files or data are ever uploaded to an external server.</p>
+        </div>
+    </details>
 </div>
 
 <footer>
@@ -195,20 +209,6 @@
 </footer>
 
 <script>
-    // Tab Expand/Collapse Functionality
-    const acc = document.getElementsByClassName("faq-accordion");
-    for (let i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active-tab");
-            const panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null;
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-        });
-    }
-
     function playAudio(panValue) {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioCtx.createOscillator();
@@ -243,5 +243,3 @@
             audio: {
                 echoCancellation: false,  
                 noiseSuppression: false,  
-                autoGainControl: false,   
-                channelCount: 2,          
